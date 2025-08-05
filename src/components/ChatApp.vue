@@ -45,13 +45,13 @@
           >
             <div class="contact-avatar">
               <div 
-                class="custom-avatar"
+                class="avatar"
                 :style="{
-                  backgroundColor: debugAvatarProps(contact.name).color,
-                  color: debugAvatarProps(contact.name).textColor
+                  backgroundColor: getAvatarProps(contact.name).color,
+                  color: getAvatarProps(contact.name).textColor
                 }"
               >
-                {{ debugAvatarProps(contact.name).text }}
+                {{ getAvatarProps(contact.name).text }}
               </div>
             </div>
             <div class="contact-info">
@@ -94,7 +94,6 @@ import ChatDialog from './ChatDialog.vue';
 const $q = useQuasar();
 const chatStore = useChatStore();
 
-// Computed properties
 const contacts = computed(() => chatStore.contacts);
 const newContacts = computed(() => chatStore.newContacts);
 const selectedContact = computed(() => chatStore.selectedContact);
@@ -108,19 +107,10 @@ const displayedContacts = computed(() => {
   return activeTab.value === 'new' ? newContacts.value : contacts.value;
 });
 
-// Debug avatar props
-const debugAvatarProps = (name: string) => {
-  const props = getAvatarProps(name);
-  console.log(`Avatar props for ${name}:`, props);
-  return props;
-};
-
 const showChat = computed(() => {
-  // Show chat on large screens or when a contact is selected on small screens
   return $q.screen.gt.sm || selectedContact.value !== null;
 });
 
-// Methods
 const selectContact = (contactName: string) => {
   chatStore.selectContact(contactName);
 };
@@ -156,7 +146,6 @@ const formatDate = (date: Date) => {
   }
 };
 
-// Lifecycle
 onMounted(() => {
   chatStore.connectWebSocket();
 });
@@ -278,7 +267,7 @@ onUnmounted(() => {
   align-items: center;
 }
 
-.custom-avatar {
+.avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -289,29 +278,6 @@ onUnmounted(() => {
   font-size: 16px;
   text-transform: uppercase;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.contact-avatar-img {
-  font-weight: 600;
-  font-size: 14px;
-  min-width: 40px;
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.avatar-fallback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px; /* Match q-avatar size */
-  height: 32px; /* Match q-avatar size */
-  background-color: #e0e0e0;
-  border-radius: 50%;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
 }
 
 .contact-info {
@@ -356,7 +322,6 @@ onUnmounted(() => {
   flex-direction: column;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .contacts-panel {
     width: 100%;

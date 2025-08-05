@@ -9,7 +9,7 @@
         <div class="contact-info">
           <div 
             v-if="contact"
-            class="custom-avatar-small"
+            class="avatar-small"
             :style="{
               backgroundColor: getAvatarProps(contact).color,
               color: getAvatarProps(contact).textColor
@@ -110,7 +110,6 @@ const emit = defineEmits<Emits>();
 const newMessage = ref('');
 const messagesContainer = ref<HTMLElement>();
 
-// Methods
 const sendMessage = () => {
   if (newMessage.value.trim()) {
     emit('send-message', newMessage.value);
@@ -134,7 +133,6 @@ const formatMessageTime = (timestamp: Date) => {
   });
 };
 
-// Auto-scroll to bottom when new messages arrive
 watch(() => props.messages.length, async () => {
   await nextTick();
   if (messagesContainer.value) {
@@ -183,7 +181,7 @@ watch(() => props.messages.length, async () => {
   margin-left: 12px;
 }
 
-.custom-avatar-small {
+.avatar-small {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -194,11 +192,6 @@ watch(() => props.messages.length, async () => {
   font-size: 14px;
   text-transform: uppercase;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.contact-avatar-img {
-  font-weight: 600;
-  font-size: 12px;
 }
 
 .contact-details {
@@ -332,7 +325,6 @@ watch(() => props.messages.length, async () => {
   gap: 2px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .input-actions {
     gap: 12px;
